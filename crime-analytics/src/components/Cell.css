@@ -1,0 +1,19 @@
+
+.cell{
+    height:50px;
+    width: 50px;
+    background: transparent;
+    border: 2px solid grey;
+    position: relative;
+}
+
+.cell button{
+    height: 50px;
+    width: 50px;
+    background: transparent;
+    border: 0;
+    position:absolute;
+    color: black;
+    font: helvetica;
+    font-size: 25px;
+}
