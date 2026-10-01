@@ -1,13 +1,13 @@
 
 import './App.css'
-import Board from './components/Board';
+import TicTacToe from './components/TicTacToe';
 
 function App() {
 
   return (
     <div className='title'>
       <h1>TIC-TAC-TOE</h1>
-      <Board/>
+      <TicTacToe/>
     </div>
   )
 

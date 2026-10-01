@@ -1,6 +1,6 @@
 import { useState } from "react";
 import './Cell.css';
-function Cell( {value,onClick} : {value : string,onClick: ()=> void}){
+function Cell( {value,onClick} : {value : string | null,onClick: ()=> void}){
 
 
     return (
