@@ -3,31 +3,11 @@ import Board from "./Board";
 import { Button } from "@mui/material";
 import "./TicTacToe.css"
 
-function TicTacToe(){
+export type Player = 'X' | 'O';
+type Cell = Player | null;
 
-    const [gameTurn,setGameTurn] = useState(0);
-    const [gameOver,setGameOver] = useState(false);
-    const [winner,setWinner] = useState<null | number>(null);
-    const [history,setHistory] = useState<Array<Array<string|null>>>([Array(9).fill(null)]);
-    const [isNextX,setIsNextX] = useState(false);
 
-    function handleReset(){
-        setHistory([Array(9).fill(null)]);
-        setIsNextX(false);
-        setWinner(null);
-        setGameOver(false);
-    }
-
-    function handlePlay(cells : Array<string | null>){
-        const nextHistory = [...history.slice(0,gameTurn + 1),cells];
-        setHistory(nextHistory);
-        setIsNextX(!isNextX);
-        setGameTurn(nextHistory.length - 1);
-    }
-
-    const cells = history[gameTurn];
-
-    const renderWinner = useMemo(() => {
+export function calculateWinner(cells : Cell[]):Player | null{
         const lines = [
             [0,1,2],
             [0,3,6],
@@ -39,24 +19,48 @@ function TicTacToe(){
             [6,7,8],
         ]
 
-        for(const line of lines){
-            if(cells[line[0]] && cells[line[0]] === cells[line[1]] && cells[line[1]] === cells[line[2]]){
-                const player = cells[line[0]] === 'O' ? 1 : 2;
-                setWinner(player);
-                setGameOver(true);
-                break;
-            }  
+        for(const [a,b,c] of lines){
+
+            if(cells[a] && cells[a] == cells[b] && cells[b] == cells[c]){
+                return cells[a];
+            }
+            
         }
         
+        return null;
 
-    },[gameTurn]);
+    }
+
+function TicTacToe(){
+
+    const [gameTurn,setGameTurn] = useState(0);
+    const [history,setHistory] = useState<Array<Array<Cell>>>([Array(9).fill(null)]);
+    const [isNextX,setIsNextX] = useState(false);
+    const cells = history[gameTurn];
+    const winner = calculateWinner(cells);
+
+    function handleReset(){
+        setHistory([Array(9).fill(null)]);
+        setIsNextX(false);
+        setGameTurn(0);
+
+    }
+
+    function handlePlay(cells : Array<Cell>){
+        const nextHistory = [...history.slice(0,gameTurn + 1),cells];
+        setHistory(nextHistory);
+        setIsNextX(!isNextX);
+        setGameTurn(nextHistory.length - 1);
+        
+    }
+
 
     function goBack(nextTurn : number){
         setGameTurn(nextTurn);
         setIsNextX(nextTurn % 2 === 0)
     }
 
-    const moves = history.map((cells,turn) =>{
+    const moves = history.map((_,turn) =>{
         let value;
         if(turn > 0) value = `Go to turn ${turn}`;
         else value = 'Go to start';
@@ -78,7 +82,7 @@ function TicTacToe(){
                     <p><b>{winner ? `Winner is ${winner}` : `Next Player : ${isNextX?2:1}`}</b></p>
                 </div>
                 <div>
-                    <Board cells={cells} gameOver={gameOver} isNextX={isNextX} handlePlay={handlePlay}/>
+                    <Board cells={cells} isNextX={isNextX} handlePlay={handlePlay}/>
                 </div>
                 <div className="reset">
                     <Button variant='outlined' onClick={handleReset}>Reset</Button>

@@ -1,17 +1,17 @@
 import Cell from "./Cell";
 import './Board.css';
+import {calculateWinner, type Player} from "./TicTacToe";
 
 type boardState = {
-    cells : Array<string | null>;
-    gameOver : boolean;
+    cells : Array<Player | null>;
     isNextX : boolean;
-    handlePlay : (nextCells :Array<string|null>) => void;
+    handlePlay : (nextCells :Array<Player | null>) => void;
 }
 
-function Board({cells,gameOver,isNextX,handlePlay} : boardState){
+function Board({cells,isNextX,handlePlay} : boardState){
 
     function handleClick(i : number){
-        if(cells[i] || gameOver) return;
+        if(cells[i] || calculateWinner(cells)) return;
 
         const nextCells = cells.slice();
         if(isNextX){
