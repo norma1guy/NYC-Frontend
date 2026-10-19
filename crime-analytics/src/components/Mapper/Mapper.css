@@ -1,3 +1,7 @@
-#map {
-    height: 150px;
+.map {
+    display: flex;
+    height: fit-content;
+    justify-content: center;
+    padding: 5px;
+    margin: 2px;
 }

@@ -7,8 +7,7 @@ function App() {
 
   return (
     <div className='title'>
-      <h1>TIC-TAC-TOE</h1>
-      <TicTacToe/>
+      <h1>Map</h1>
       <Mapper/>
     </div>
   )

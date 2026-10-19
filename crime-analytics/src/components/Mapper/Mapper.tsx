@@ -1,19 +1,39 @@
 import * as React from 'react';
 import Map from 'react-map-gl/maplibre';
 import 'maplibre-gl/dist/maplibre-gl.css';
+import type { StyleSpecification } from 'maplibre-gl';
 import { setWorkerUrl } from "maplibre-gl";
 import workerUrl from "maplibre-gl/dist/maplibre-gl-worker.mjs?worker&url";
+import './Mapper.css'
+
+import { fetchBoundary } from '../../utils/api';
+import type { FeatureCollection, GeoJsonProperties, Geometry,  } from 'geojson';
 
 setWorkerUrl(workerUrl);
 
+const emptyBoundary: FeatureCollection<Geometry, GeoJsonProperties> = {
+  type: "FeatureCollection",
+  features: [],
+};
+
+
 export default function Mapper(){
 
-    const mapStyle = {
+    const [boundary, setBoundary] = React.useState<FeatureCollection<Geometry, GeoJsonProperties> | undefined>(undefined);
+
+    React.useEffect(() => {
+    fetchBoundary().then(setBoundary).catch(console.error);
+    }, []);
+
+    const mapStyle : StyleSpecification = {
         "version" : 8,
         "name" : "Base Map",
         "sources" : {
-
-                    },
+            "boundary" : {
+                "type" : "geojson",
+                "data" : boundary ?? emptyBoundary,
+            },
+        },
         
         "layers" : [
                         {
@@ -24,16 +44,22 @@ export default function Mapper(){
                             }
                         },
                         {
-                            "id": "Roads",
+                            "id": "Boundary",
                             "type": "fill",
+                            "source" : "boundary",
+                            "source-layer" : "",
+                            "paint" : {
+                                "fill-color" : "rgb(212, 56, 56)"
+                            }
                         }
                     ]
 
     }
+    //console.log(boundary);
 
 
     return (
-        <div id='map'>
+        <div className='map'>
             <Map
                 initialViewState={{
                     longitude: -73.9311,
@@ -41,7 +67,7 @@ export default function Mapper(){
                     zoom:9
                 }}
                 style={{width: 600, height: 400}}
-                mapStyle="https://demotiles.maplibre.org/style.json"
+                mapStyle={mapStyle}
             />
         </div>
     )
