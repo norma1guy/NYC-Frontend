@@ -11,7 +11,7 @@ const instance = axios.create({
 export async function fetchBoundary(){
     try {
         
-        const response = await instance.get<FeatureCollection>('/polygons/geojson/?name=New%20York');
+        const response = await instance.get<FeatureCollection>('/boundary/geojson');
         const features = response.data;
         return features;
 
