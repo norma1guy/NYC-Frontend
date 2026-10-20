@@ -1,14 +1,13 @@
 
 import './App.css'
-import TicTacToe from './components/TicTacToe/TicTacToe';
-import Mapper from './components/Mapper/Mapper';
+import Styler from './components/Mapper/Styler';
 
 function App() {
 
   return (
     <div className='title'>
       <h1>Map</h1>
-      <Mapper/>
+      <Styler/>
     </div>
   )
 
