@@ -16,10 +16,12 @@ export default function Mapper({styleSpec} : {styleSpec:StyleSpecification}){
                 initialViewState={{
                     longitude: -73.9311,
                     latitude: 40.6567,
-                    zoom:9
+                    zoom:10,
+                    pitch: 45,
                 }}
                 style={{width: 1200, height: 600}}
                 mapStyle={styleSpec}
+                
             />
         </div>
     )

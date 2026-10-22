@@ -9,31 +9,27 @@ const instance = axios.create({
     headers: {"Authorization" : `Token ${import.meta.env.VITE_API_TOKEN}`}
 })
 
-export async function getBoundary(borough : boolean) : Promise<AsyncData<FeatureCollection>>{
+export async function getBoundary(name : string) : Promise<AsyncData<FeatureCollection>>{
     try {
 
-        if(!borough){
-            const response = await instance.get<FeatureCollection>('/boundary/geojson/?name=New%20York');
-            const features = response.data;
-            return features;
-        } else {
-            const response = await instance.get<FeatureCollection>('/boundary/geojson/?name=Manhattan,The%20Bronx,Staten%20Island,Brooklyn,Queens');
-            const features = response.data;
-            return features;
-        }
+        const encodedParameter = encodeURIComponent(name);
+        const response = await instance.get<FeatureCollection>(`/boundary/geojson/?name=${encodedParameter}`);
+        const features = response.data;
+        return features;
+        
 
     } catch (error) {
-        console.error('Error fetching the boundary for ',`${borough ? 'City' : 'Boroughs'}`,error);
+        console.error(`Error fetching the boundary for ${name}`,error);
     }
 }
 
-export async function getCompleteBoundary() : Promise<AsyncData<FeatureCollection>>{
+export async function getBoroPolygon() : Promise<AsyncData<FeatureCollection>>{
     try {
         const response = await instance.get<FeatureCollection>('/polygons/geojson/?name=Manhattan,The%20Bronx,Staten%20Island,Brooklyn,Queens');
         const features = response.data;
         return features;
     } catch(error) {
-        console.error('Error fetching complete boundaries polygons',error);
+        console.error('Error fetching complete boundary polygons',error);
     }
 }
 
