@@ -1,11 +1,11 @@
 import type { Source, SourceSpecification, StyleSpecification,SymbolLayerSpecification } from 'maplibre-gl';
 import { getBoroPolygon, getBoundary } from '../../utils/api';
-import type { AsyncData, CustomSources, geoData } from '../../types/styleSpecs';
+import type { AsyncData, geoData } from '../../types/styleSpecs';
 import { useEffect, useState } from 'react';
 import Mapper from './Mapper';
 import { cityLayer } from './createCityLayer';
-import { boroLayer } from './createBoroLayers';
-import { createBoundaryDataSources } from './createSources';
+import { createBoroLayers } from './createBoroLayers';
+import { createSources } from './createSources';
 
 
 const emptyData: geoData = {
@@ -13,33 +13,34 @@ const emptyData: geoData = {
     features: [],
 };
 
-const emptySource: SourceSpecification = {
-    type : "geojson",
-    data : emptyData,
+const emptySource: Record<string,SourceSpecification> = 
+{
+    "empty":
+    {
+        type : "geojson",
+        data : emptyData,
+    }
 }
 
 export default function Styler(){
 
-    const [cityBoundary,setCityBoundary] = useState<AsyncData<geoData>>(undefined);
-    const [boroBoundary,setBoroBoundary] = useState<AsyncData<geoData>>(undefined);
-    const [boroPolygons,setBoroPolygons] = useState<AsyncData<geoData>>(undefined);
-    const [customSources,setCustomSources] = useState<CustomSources>({});
-
+    const [boundary,setBoundary] = useState<AsyncData<geoData>>(undefined);
+    const [sources,setSources] = useState<Record<string,SourceSpecification>>();
 
 
     useEffect(() => {
-        createBoundaryDataSources()
-        .then(setCustomSources)
-        .catch(console.error);
-    },[]);
 
-   
-    
-    //console.log(boroBoundary);
+        createSources()
+        .then(setSources)
+        .catch(console.error);
+        
+
+    },[]);
+       
     const mapStyle : StyleSpecification = {
         version : 8,
         name : "Map",
-        sources : customSources,
+        sources : sources ?? emptySource,
 
         layers : [
             {
@@ -51,9 +52,7 @@ export default function Styler(){
             },
             ...cityLayer
             ,
-            ...boroLayer
-            ,
-            
+            ...createBoroLayers(),
         ],
     }
 

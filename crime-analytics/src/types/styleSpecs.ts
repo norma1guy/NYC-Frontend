@@ -6,5 +6,3 @@ import type { StyleSpecification } from "maplibre-gl";
 export type geoData = FeatureCollection< Geometry, GeoJsonProperties>;
 
 export type AsyncData<T> = T | undefined;
-
-export type CustomSources = NonNullable<StyleSpecification["sources"]>;

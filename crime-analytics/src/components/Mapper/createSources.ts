@@ -1,37 +1,28 @@
 import type {SourceSpecification} from 'maplibre-gl';
 import { getBoundary } from '../../utils/api';
-import type { AsyncData,CustomSources,geoData } from '../../types/styleSpecs';
-import type { FeatureCollection } from 'geojson';
 
-
-export async function createSources(){
-    const boundaryNames = [
-        'New York','Manhattan','Staten Island',
-        'The Bronx','Queens','Brooklyn'
-    ]
+export const codes: {[key:string] : string} = {
+    "New York" : "NYC",
+    "Manhattan" : "MN",
+    "The Bronx" : "BX",
+    "Queens" : "QN",
+    "Staten Island" : "SI",
+    "Brooklyn" : "BK",
 }
 
+export async function createSources() : Promise<Record<string,SourceSpecification>>{
 
+    const boundary = await getBoundary();
 
-export async function createBoundaryDataSources() : Promise<CustomSources>{
+    if(!boundary){
+        throw new Error('Cannot retrieve boundary data');
+    }
 
-    const boundaryNames = [
-        'New York','Manhattan','Staten Island',
-        'The Bronx','Queens','Brooklyn'
-    ]
-
-    const sources = await Promise.all(
-        boundaryNames.map(async (name,index) => {
-            const geojson = await getBoundary(name);
-
-            return {
-                [`boundary${index}`] : {
-                    type : "geojson",
-                    data : geojson,
-                }
-            }
-        })
-    )
-
-    return Object.assign({}, ...sources) as CustomSources;
+    return {
+        'boundary' : {
+            type : 'geojson',
+            data : boundary
+        }
+    }
+    
 }

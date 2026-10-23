@@ -9,15 +9,13 @@ const instance = axios.create({
     headers: {"Authorization" : `Token ${import.meta.env.VITE_API_TOKEN}`}
 })
 
-export async function getBoundary(name : string) : Promise<AsyncData<FeatureCollection>>{
+export async function getBoundary() : Promise<AsyncData<FeatureCollection>>{
     try {
 
-        const encodedParameter = encodeURIComponent(name);
-        const response = await instance.get<FeatureCollection>(`/boundary/geojson/?name=${encodedParameter}`);
+        const response = await instance.get<FeatureCollection>(`/boundary/geojson/?name=New%20York,The%20Bronx,Queens,Staten%20Island,Brooklyn,Manhattan`);
         const features = response.data;
         return features;
         
-
     } catch (error) {
         console.error(`Error fetching the boundary for ${name}`,error);
     }
