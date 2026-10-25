@@ -1,6 +1,7 @@
 .map {
     display: flex;
-    height: fit-content;
+    width: 100vh;
+    height: 70vh;
     justify-content: center;
     padding: 5px;
     margin: 2px;

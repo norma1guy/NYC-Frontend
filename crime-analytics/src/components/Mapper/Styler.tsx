@@ -1,11 +1,12 @@
 import type { Source, SourceSpecification, StyleSpecification,SymbolLayerSpecification } from 'maplibre-gl';
 import { getBoroPolygon, getBoundary } from '../../utils/api';
 import type { AsyncData, geoData } from '../../types/styleSpecs';
-import { useEffect, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import Mapper from './Mapper';
 import { cityLayer } from './createCityLayer';
 import { createBoroLayers } from './createBoroLayers';
 import { createSources } from './createSources';
+import './Styler.css'
 
 
 const emptyData: geoData = {
@@ -24,7 +25,6 @@ const emptySource: Record<string,SourceSpecification> =
 
 export default function Styler(){
 
-    const [boundary,setBoundary] = useState<AsyncData<geoData>>(undefined);
     const [sources,setSources] = useState<Record<string,SourceSpecification>>();
 
 
@@ -33,32 +33,44 @@ export default function Styler(){
         createSources()
         .then(setSources)
         .catch(console.error);
-        
+
 
     },[]);
-       
-    const mapStyle : StyleSpecification = {
-        version : 8,
-        name : "Map",
-        sources : sources ?? emptySource,
 
-        layers : [
-            {
-                "id": "background",
-                "type": "background",
-                "paint": {
-                    "background-color": "rgb(56, 131, 206)"
-                }
-            },
-            ...cityLayer
-            ,
-            ...createBoroLayers(),
-        ],
+    
+       
+    const mapStyle = useMemo<StyleSpecification | null>(() => {
+        if(!sources) return null;
+        
+        return {
+            version : 8,
+            name : "Map",
+            sources : sources,
+
+            layers : [
+                {
+                    "id": "background",
+                    "type": "background",
+                    "paint": {
+                        "background-color": "rgb(56, 131, 206)"
+                    }
+                },
+                ...cityLayer
+                ,
+                ...createBoroLayers(),
+            ],
+        }
+    }, [sources]);
+
+    if(!mapStyle){
+        return <div className='loader'>Loading map...</div>
     }
+
+    const handler = ()=>{}
 
     return (
         <div className='styler'>
-            <Mapper styleSpec={mapStyle}/>
+            <Mapper styleSpec={mapStyle} handleLoad={handler}/>
         </div>
     )
 

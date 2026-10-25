@@ -1,5 +1,5 @@
 import type {SourceSpecification} from 'maplibre-gl';
-import { getBoundary } from '../../utils/api';
+import { getBoroPolygon, getBoundary, getLabelPoints } from '../../utils/api';
 
 export const codes: {[key:string] : string} = {
     "New York" : "NYC",
@@ -12,16 +12,35 @@ export const codes: {[key:string] : string} = {
 
 export async function createSources() : Promise<Record<string,SourceSpecification>>{
 
-    const boundary = await getBoundary();
 
-    if(!boundary){
-        throw new Error('Cannot retrieve boundary data');
+    const [boundary,boundaryPolygon,labelPoints] = await Promise.all(
+        [
+            getBoundary(),
+            getBoroPolygon(),
+            getLabelPoints(),
+        ]
+    ).catch((error) => {
+        throw new Error(`Cannot retrieve data`,{cause : error})
+    })
+
+    if(!boundary || !boundaryPolygon || !labelPoints){
+        throw new Error(`Cannot retrieve one or more data`);
     }
+
+    
 
     return {
         'boundary' : {
             type : 'geojson',
             data : boundary
+        },
+        'boundarypolygon' : {
+            type : 'geojson',
+            data : boundaryPolygon
+        },
+        'labelpoints' : {
+            type : 'geojson',
+            data : labelPoints
         }
     }
     

@@ -21,6 +21,16 @@ export async function getBoundary() : Promise<AsyncData<FeatureCollection>>{
     }
 }
 
+export async function getLabelPoints() : Promise<AsyncData<FeatureCollection>>{
+    try {
+        const response = await instance.get<FeatureCollection>(`/labels/geojson/`);
+        const features = response.data;
+        return features
+    } catch(error){
+        console.error('Error fetching points for labels ',error)
+    } 
+}
+
 export async function getBoroPolygon() : Promise<AsyncData<FeatureCollection>>{
     try {
         const response = await instance.get<FeatureCollection>('/polygons/geojson/?name=Manhattan,The%20Bronx,Staten%20Island,Brooklyn,Queens');
@@ -31,3 +41,12 @@ export async function getBoroPolygon() : Promise<AsyncData<FeatureCollection>>{
     }
 }
 
+export async function getAmenity(parameters : string[]) : Promise<AsyncData<FeatureCollection>>{
+    try{
+        const encodedURI = encodeURI(parameters.join(','))
+        const response = await instance.get<FeatureCollection>(`/points/geojson/?amenity${encodedURI}`)
+        return response.data;
+    } catch(error) {
+        console.error('Error fetching amenities ',error);
+    }
+}
