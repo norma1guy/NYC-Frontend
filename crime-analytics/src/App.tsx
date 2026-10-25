@@ -1,6 +1,6 @@
 
 import './App.css'
-import Styler from './components/Mapper/Styler';
+import Styler from './components/Styler/Styler';
 
 function App() {
 

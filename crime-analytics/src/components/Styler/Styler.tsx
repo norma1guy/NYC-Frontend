@@ -1,27 +1,13 @@
-import type { Source, SourceSpecification, StyleSpecification,SymbolLayerSpecification } from 'maplibre-gl';
-import { getBoroPolygon, getBoundary } from '../../utils/api';
-import type { AsyncData, geoData } from '../../types/styleSpecs';
+import type { SourceSpecification, StyleSpecification} from 'maplibre-gl';
+import type { geoData } from '../../types/styleSpecs';
 import { useEffect, useMemo, useState } from 'react';
-import Mapper from './Mapper';
-import { cityLayer } from './createCityLayer';
-import { createBoroLayers } from './createBoroLayers';
-import { createSources } from './createSources';
+import Mapper from '../Mapper/Mapper';
+import { cityLayer } from '../../utils/createCityLayer';
+import { createBoroLayers } from '../../utils/createBoroLayers';
+import { createSources } from '../../utils/createSources';
 import './Styler.css'
+import Modifier from '../Modifier/Modifier';
 
-
-const emptyData: geoData = {
-    type: "FeatureCollection",
-    features: [],
-};
-
-const emptySource: Record<string,SourceSpecification> = 
-{
-    "empty":
-    {
-        type : "geojson",
-        data : emptyData,
-    }
-}
 
 export default function Styler(){
 
@@ -71,6 +57,7 @@ export default function Styler(){
     return (
         <div className='styler'>
             <Mapper styleSpec={mapStyle} handleLoad={handler}/>
+            <Modifier/>
         </div>
     )
 

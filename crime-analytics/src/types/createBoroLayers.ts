@@ -1,6 +1,4 @@
 import type { LayerSpecification } from "maplibre-gl";
-import { totalPopulation } from "../../types/constants";
-import { codes } from "./createSources";
 
 
 //Change symbol layer to interaction

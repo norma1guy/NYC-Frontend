@@ -41,12 +41,11 @@ export async function getBoroPolygon() : Promise<AsyncData<FeatureCollection>>{
     }
 }
 
-export async function getAmenity(parameters : string[]) : Promise<AsyncData<FeatureCollection>>{
+export async function getColumnValues(column : string) : Promise<AsyncData<string[]>>{
     try{
-        const encodedURI = encodeURI(parameters.join(','))
-        const response = await instance.get<FeatureCollection>(`/points/geojson/?amenity${encodedURI}`)
+        const response = await instance.get<string[]>(`/points/distinct/?column=${column}`)
         return response.data;
     } catch(error) {
-        console.error('Error fetching amenities ',error);
+        console.error('Error fetching values ',error);
     }
 }

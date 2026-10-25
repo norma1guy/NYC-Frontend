@@ -1,5 +1,5 @@
 import type {SourceSpecification} from 'maplibre-gl';
-import { getBoroPolygon, getBoundary, getLabelPoints } from '../../utils/api';
+import { getBoroPolygon, getBoundary, getLabelPoints } from './api';
 
 export const codes: {[key:string] : string} = {
     "New York" : "NYC",
