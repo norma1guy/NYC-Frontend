@@ -1,11 +1,9 @@
 import type { SourceSpecification, StyleSpecification} from 'maplibre-gl';
-import type { geoData } from '../../types/styleSpecs';
 import { useEffect, useMemo, useState } from 'react';
 import Mapper from '../Mapper/Mapper';
 import { cityLayer } from '../../utils/createCityLayer';
 import { createBoroLayers } from '../../utils/createBoroLayers';
 import { createSources } from '../../utils/createSources';
-import './Styler.css'
 import Modifier from '../Modifier/Modifier';
 
 
@@ -49,7 +47,7 @@ export default function Styler(){
     }, [sources]);
 
     if(!mapStyle){
-        return <div className='loader'>Loading map...</div>
+        return <div className='animate-spin'>Loading map...</div>
     }
 
     const handler = ()=>{}

@@ -8,6 +8,6 @@ import 'maplibre-gl/dist/maplibre-gl.css';
   
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
-    <App />
+    <App/>
   </StrictMode>,
 )
