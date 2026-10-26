@@ -53,7 +53,7 @@ export default function Mapper({styleSpec,handleLoad} : {styleSpec:StyleSpecific
     
     return (
         <div 
-            className='map'
+            className='m-2 p-5 flex w-dvh h-[70dvh] justify-center'
             ref={containerRef}
         />
     )

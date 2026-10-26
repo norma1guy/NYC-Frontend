@@ -55,9 +55,9 @@ export default function Styler(){
     const handler = ()=>{}
 
     return (
-        <div className='styler'>
-            <Mapper styleSpec={mapStyle} handleLoad={handler}/>
+        <div className='m-2 p-2 bg-black flex flex-col items-center justify-around'>
             <Modifier/>
+            <Mapper styleSpec={mapStyle} handleLoad={handler}/>
         </div>
     )
 
