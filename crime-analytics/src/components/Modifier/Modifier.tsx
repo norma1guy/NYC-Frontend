@@ -1,8 +1,6 @@
-import Styler from "../Styler/Styler";
 import { useEffect, useState } from "react";
-import {Menubar} from '@base-ui/react/menubar';
-import {Menu} from '@base-ui/react/menu';
 import { getColumnValues } from "../../utils/api";
+import DropDown from "../DropDown/DropDown";
 
 
 export default function Modifier(){
@@ -33,22 +31,11 @@ export default function Modifier(){
 
     return (
         <div className="modifier">
-            <Menu.Root>
-                <Menu.Trigger className='m-2 p-2 bg-black border border-solid border-white text-white'>
-                    Amenity 
-                </Menu.Trigger>
-                <Menu.Portal>
-                    <Menu.Positioner>
-                        <Menu.Popup className="m-1 p-1 bg-black text-white h-48 overflow-y-auto border border-white border-solid scrollbar-none scroll-smooth">
-                            {amenities.map((amenity) => (
-                                <Menu.Item className="text-white hover:bg-white hover:text-black">
-                                    {amenity}
-                                </Menu.Item>
-                            ))}
-                        </Menu.Popup>
-                    </Menu.Positioner>
-                </Menu.Portal>
-            </Menu.Root>
+            <DropDown name="Amenity" values={amenities} example="Hospital"/>
         </div>
     )
 }
+
+
+
+
