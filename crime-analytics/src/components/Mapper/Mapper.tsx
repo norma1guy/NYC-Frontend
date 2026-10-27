@@ -1,26 +1,25 @@
-import {useRef,useEffect} from 'react';
+import {useRef,useEffect, type Dispatch} from 'react';
 import { type StyleSpecification,Map } from 'maplibre-gl';
 import { setWorkerUrl } from "maplibre-gl";
 import workerUrl from "maplibre-gl/dist/maplibre-gl-worker.mjs?worker&url";
 
 setWorkerUrl(workerUrl);
 
+type MapperProps = {
+    styleSpec : StyleSpecification,
+    onLoad : Dispatch<Map>
+}
 
-export default function Mapper({styleSpec,handleLoad} : {styleSpec:StyleSpecification,handleLoad:()=>void}){
+
+export default function Mapper({styleSpec,onLoad} : MapperProps){
 
     const containerRef = useRef<HTMLDivElement>(null);
     const mapRef = useRef<Map | null>(null);
-    const styleRef = useRef<StyleSpecification | null>(null);
-
-    useEffect(() => {
-        styleRef.current = styleSpec;
-    },[styleSpec])
 
     useEffect(() => {
         const container = containerRef.current;
-        const currentStyle = styleRef.current;
 
-        if(!currentStyle || !container || mapRef.current){
+        if(!styleSpec|| !container || mapRef.current){
             return;
         }
 
@@ -32,22 +31,8 @@ export default function Mapper({styleSpec,handleLoad} : {styleSpec:StyleSpecific
             pitch: 45
 
         });
-        mapRef.current = map;
-        return () => {
-            map.remove();
-            mapRef.current = null;
-        };
+        onLoad(map);
     },[]);
-
-    useEffect(() => {
-        const map = mapRef.current;
-        if(!map || !styleSpec) return;
-
-        if(map.getStyle() === styleSpec) return;
-
-        map.setStyle(styleSpec);
-
-    },[styleSpec]);
 
 
     

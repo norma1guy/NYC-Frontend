@@ -1,5 +1,5 @@
-import { type LayerSpecification, type SourceSpecification, type StyleSpecification} from 'maplibre-gl';
-import { useEffect, useMemo, useState } from 'react';
+import { Map, type LayerSpecification, type SourceSpecification, type StyleSpecification} from 'maplibre-gl';
+import { useEffect, useMemo, useState, type Dispatch } from 'react';
 import Mapper from '../Mapper/Mapper';
 import { cityLayer } from '../../utils/createCityLayer';
 import { createBoroLayers } from '../../utils/createBoroLayers';
@@ -8,14 +8,20 @@ import Modifier from '../Modifier/Modifier';
 import Loader from '../Loader/Loader';
 import { createLayers } from '../../utils/createLayers';
 
+type StylerProps = {
+    onLoad : Dispatch<Map>,
+}
 
-export default function Styler(){
+export default function Styler({onLoad} : StylerProps){
 
     const [sources,setSources] = useState<Record<string,SourceSpecification>>();
     const [loading,setLoading] = useState<boolean>(true);
     const [layers,setLayers] = useState<LayerSpecification[]>([]);
+    const [mapStyle,setMapStyle] = useState<StyleSpecification>();
     const [modify,setModify] = useState<boolean>(false);
-    
+
+
+
 
 
     //Initial map setup
@@ -31,24 +37,18 @@ export default function Styler(){
 
     useEffect(() => {
 
-    },[modify])
-
-    
-       
-    const mapStyle = useMemo<StyleSpecification | null>(() => {
-        if(!sources) return null;
+        if(!sources) return;
         setLoading(false);
-        
-        return {
+
+        const style : StyleSpecification = {
             version : 8,
             name : "Map",
             sources : sources,
-
             layers : layers,
         }
-    }, [sources]);
+        setMapStyle(style);
+    },[sources,layers])
 
-    const handler = ()=>{}
 
     return (
         <div>
@@ -57,9 +57,8 @@ export default function Styler(){
                 <Loader/>
             </div>)
             :
-            (<div className='m-2 p-2 bg-black flex flex-col items-center justify-around'>
-                <Modifier/>
-                <Mapper styleSpec={mapStyle} handleLoad={handler}/>
+            (<div>
+                <Mapper styleSpec={mapStyle} onLoad={onLoad}/>
             </div>)
         }
         </div>

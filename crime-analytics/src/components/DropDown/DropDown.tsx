@@ -1,4 +1,5 @@
 import {Menu} from '@base-ui/react/menu';
+import type { Dispatch } from 'react';
 
 const triggerClass = "flex h-8 items-center justify-center gap-1.5 rounded-none border border-neutral-950 bg-white pr-2 pl-3 text-sm leading-none font-normal whitespace-nowrap text-neutral-950 select-none hover:not-data-disabled:bg-neutral-100 active:not-data-disabled:bg-neutral-200 data-pressed:bg-neutral-100 data-disabled:border-neutral-500 data-disabled:text-neutral-500 focus-visible:-outline-offset-1 focus-visible:outline-2 focus-visible:outline-neutral-950 disabled:border-neutral-500 disabled:text-neutral-500 dark:border-white dark:bg-neutral-950 dark:text-white dark:hover:not-data-disabled:bg-neutral-800 dark:active:not-data-disabled:bg-neutral-700 dark:data-pressed:bg-neutral-800 dark:data-disabled:border-neutral-400 dark:data-disabled:text-neutral-400 dark:focus-visible:outline-white";
 const popupClass =   'min-w-[max(14rem,var(--anchor-width))] origin-[var(--transform-origin)] overflow-hidden border border-neutral-950 bg-white text-neutral-950 shadow-[0.25rem_0.25rem_0] shadow-black/12 transition-[scale,opacity] duration-100 ease-out outline-hidden data-ending-style:scale-[0.98] data-ending-style:opacity-0 data-starting-style:scale-[0.98] data-starting-style:opacity-0 dark:border-white dark:bg-neutral-950 dark:text-white dark:shadow-none'; 
@@ -12,16 +13,20 @@ const listBaseClass =   'overflow-y-auto py-1 outline-hidden scrollbar-thin scro
 const listClass = `${listBaseClass} max-h-[min(22rem,var(--available-height))] [&>[data-filter-section]:not([hidden])~[data-filter-section]:not([hidden])>[data-filter-separator]]:block`; 
 
 type DropDownProp = {
-    name : string,
-    values : string[],
-    example : string
+    name : string;
+    values : string[];
+    example : string;
+    onClick : Dispatch<string[]>;
+
 }
 
-
-export default function DropDown({name,values,example} : DropDownProp){
-
+function handleClick(){
 
 
+
+}
+
+export default function DropDown({name,values,example,onClick} : DropDownProp){
 
     return (
             <div>
@@ -40,7 +45,7 @@ export default function DropDown({name,values,example} : DropDownProp){
                                     <Menu.Empty className={emptyClass}>No {name} found</Menu.Empty>
                                     <Menu.List className={listClass}>
                                         {values.map((value) => (
-                                            <Menu.Item className={itemClass}>
+                                            <Menu.Item className={itemClass} onClick={handleClick}>
                                                 {value}
                                             </Menu.Item>
                                         ))}
