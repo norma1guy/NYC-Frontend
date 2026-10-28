@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from "react";
-import { getColumnValues } from "../../utils/api";
+import { getColumnValues, getDistinctColumnValues } from "../../utils/api";
 import DropDown from "../DropDown/DropDown";
 import type { Map } from "maplibre-gl";
 import MyCombobox from "../Combobox/Combobox";
@@ -9,34 +9,29 @@ type ModifierProps = {
     map : Map,
 }
 
+export type ModifierData = {
+    id : number;
+    value : string;
+}
+
 export default function Modifier({map} : ModifierProps){
 
-    const [amenities,setAmenities] = useState<string[]>([]);
+    const [amenities,setAmenities] = useState<ModifierData[]>([]);
     const [modifiers,setModifiers] = useState<string[]>([])
 
     useEffect(() => {
         async function getAmenities(){
-            const data = await getColumnValues('amenity');
+            const data = await getDistinctColumnValues('amenity');
             if(!data)return;
-
-            const cleaned_data = data.map((entry) =>
-                entry ? (
-                    entry === "wifi;telephone;device_charging_station" ? 
-                    entry = "Wifi/Telephone/Device Charging Station" :
-                    entry.split('_').map(word => 
-                        word.charAt(0).toUpperCase() + word.slice(1).toLowerCase()
-                    ).join(' ')
-                ): entry
-            );
-            setAmenities(cleaned_data);
+            const data_structured = data.map((value,index)=>({id : index,value}));
+            setAmenities(data_structured);
         }
         getAmenities();
     },[]);
     
     useEffect(() => {
-        if(modifiers.length === 5){
-
-        }
+        
+        
 
         console.log("MODIFIERS CHANGED!\n")
     },[modifiers])

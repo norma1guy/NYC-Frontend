@@ -1,6 +1,7 @@
 
 import {Combobox} from '@base-ui/react/combobox';
 import type { Dispatch } from 'react';
+import type { ModifierData } from '../Modifier/Modifier';
 
 
 const inputLabelClass = "flex flex-col gap-1 text-sm leading-5 font-bold text-neutral-950 dark:text-white";
@@ -18,14 +19,14 @@ const itemClass = "grid cursor-default grid-cols-[1rem_1fr] items-center gap-2 p
 
 type ComboboxProps = {
     name : string;
-    data : string[];
+    data : ModifierData[];
     example : string;
     onChange : Dispatch<string[]>;
 }
 export default function MyCombobox({name,data,example,onChange} : ComboboxProps){
 
     return (
-    <Combobox.Root items={data} multiple onValueChange={(values:string[])=>{onChange(values)}} >
+    <Combobox.Root items={data} multiple onValueChange={(values)=>{console.log(values)}} >
         
       <div className={inputDivClass}>
         <label
@@ -35,21 +36,28 @@ export default function MyCombobox({name,data,example,onChange} : ComboboxProps)
         </label>
         <Combobox.InputGroup className={inputGroupClass}>
           <Combobox.Value>
-            {(values: string[]) => (
+            {(values: ModifierData[]) => (
               <Combobox.Chips
                 className="flex w-full flex-wrap items-center gap-1"
                 aria-label={values.length > 0 ? `Selected ${name}` : undefined}
               >
-                {values.map((value) => (
+                {values.map((field) => (
                   <Combobox.Chip
                     className={chipClass}
-                    aria-label={value}
+                    aria-label={field.value}
                     aria-description="Press Backspace or Delete to remove"
+                    id={`${field.id}`}
                   >
-                    {value}
+                    {
+                      field.value 
+                      ? 
+                      field.value.split('_').map(word => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase()).join(' ') 
+                      : 
+                      field.value
+                    }
                     <Combobox.ChipRemove
                       className={chipRemoveClass}
-                      aria-label={`Remove ${value}`}
+                      aria-label={`Remove ${field.value}`}
                     >
                       <XIcon />
                     </Combobox.ChipRemove>
@@ -79,15 +87,24 @@ export default function MyCombobox({name,data,example,onChange} : ComboboxProps)
               </div>
             </Combobox.Empty>
             <Combobox.List>
-              {(value: string) => (
+              {(field: ModifierData) => (
                 <Combobox.Item
+                  key={field.id}
                   className={itemClass}
-                  value={value}
+                  value={field}
                 >
                   <Combobox.ItemIndicator className="col-start-1">
                     <CheckIcon />
                   </Combobox.ItemIndicator>
-                  <span className="col-start-2">{value}</span>
+                  <span className="col-start-2">
+                  {
+                    field.value 
+                    ? 
+                    field.value.split('_').map(word => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase()).join(' ')
+                    :
+                    field.value
+                  }
+                  </span>
                 </Combobox.Item>
               )}
             </Combobox.List>

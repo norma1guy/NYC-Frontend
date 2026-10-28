@@ -41,11 +41,21 @@ export async function getBoroPolygon() : Promise<AsyncData<FeatureCollection>>{
     }
 }
 
-export async function getColumnValues(column : string) : Promise<AsyncData<string[]>>{
+export async function getDistinctColumnValues(column : string) : Promise<AsyncData<string[]>>{
     try{
-        const response = await instance.get<string[]>(`/points/distinct/?column=${column}`)
+        const response = await instance.get<string[]>(`/points/distinct/?column=${column}`);
         return response.data;
     } catch(error) {
         console.error('Error fetching values ',error);
+    }
+}
+
+
+export async function getColumnValues(column : string,value : string) : Promise<AsyncData<FeatureCollection>>{
+    try{
+        const response = await instance.get<FeatureCollection>(`/points/geojson/?${column}=${value}`);
+        return response.data;
+    } catch(error) {
+        console.error(`Error fetching GeoJSON for ${column} with value ${value}`);
     }
 }
