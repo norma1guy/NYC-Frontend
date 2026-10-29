@@ -18,10 +18,10 @@ export function createLayers() : LayerSpecification[]{
     ]
 }
 
-export function createPointLayer(sourceId : string) : LayerSpecification {
+export function createPointLayer(layerId : string, sourceId : string) : LayerSpecification {
 
     return {
-        id : `${sourceId}-point`,
+        id : layerId,
         type : 'symbol',
         source: sourceId,
         layout : {

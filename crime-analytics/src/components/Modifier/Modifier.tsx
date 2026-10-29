@@ -1,9 +1,6 @@
-import { useEffect, useRef, useState, type Dispatch } from "react";
-import { getColumnValues, getDistinctColumnValues } from "../../utils/api";
-import type { Map } from "maplibre-gl";
+import { useEffect, useState, type Dispatch } from "react";
+import { getDistinctColumnValues } from "../../utils/api";
 import MyCombobox from "../Combobox/Combobox";
-import { modifySources } from "../../utils/modifySources";
-import { createPointLayer } from "../../utils/createLayers";
 
 type ModifierProps = {
     onModify : Dispatch<ModifierData[]>,
