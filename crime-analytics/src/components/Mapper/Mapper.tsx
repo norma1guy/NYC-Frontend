@@ -1,7 +1,8 @@
-import {useRef,useEffect, type Dispatch} from 'react';
+import {useRef,useEffect, type Dispatch, useState} from 'react';
 import { type StyleSpecification,Map } from 'maplibre-gl';
 import { setWorkerUrl } from "maplibre-gl";
 import workerUrl from "maplibre-gl/dist/maplibre-gl-worker.mjs?worker&url";
+import markerIcon from '../../assets/marker.svg';
 
 setWorkerUrl(workerUrl);
 
@@ -30,6 +31,21 @@ export default function Mapper({styleSpec,onLoad} : MapperProps){
             zoom: 10,
             pitch: 45
 
+        });
+        map.on('load', () => {
+            const marker = new Image();
+
+            marker.onload = () => {
+                if (!map.hasImage('marker')) {
+                map.addImage('marker', marker);
+                }
+            };
+
+            marker.onerror = (err) => {
+                console.error('Failed to load SVG:', err);
+            };
+
+            marker.src = markerIcon;
         });
         onLoad(map);
     },[]);

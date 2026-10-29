@@ -17,3 +17,18 @@ export function createLayers() : LayerSpecification[]{
         ...createBoroLayers(),
     ]
 }
+
+export function createPointLayer(sourceId : string) : LayerSpecification {
+
+    return {
+        id : `${sourceId}-point`,
+        type : 'symbol',
+        source: sourceId,
+        layout : {
+            'symbol-placement' : 'point',
+            'icon-image' : 'marker',
+            'icon-size' : 0.1,
+        },
+    }
+
+}

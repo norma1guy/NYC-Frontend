@@ -21,12 +21,12 @@ type ComboboxProps = {
     name : string;
     data : ModifierData[];
     example : string;
-    onChange : Dispatch<string[]>;
+    onChange : Dispatch<ModifierData[]>;
 }
 export default function MyCombobox({name,data,example,onChange} : ComboboxProps){
 
     return (
-    <Combobox.Root items={data} multiple onValueChange={(values)=>{console.log(values)}} >
+    <Combobox.Root items={data} multiple onValueChange={(values:ModifierData[])=>{onChange(values)}} >
         
       <div className={inputDivClass}>
         <label

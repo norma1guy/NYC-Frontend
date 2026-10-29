@@ -1,8 +1,11 @@
-import type { SourceSpecification,Map } from "maplibre-gl";
+import type { SourceSpecification,Map, GeoJSONSourceSpecification } from "maplibre-gl";
 import { getColumnValues } from "./api";
 
-
-export async function modifySources({name,value} : {name : string,value : string}) : Promise<Record<string,SourceSpecification>>{
+export type ModifySource = {
+    id : string;
+    source : GeoJSONSourceSpecification
+}
+export async function modifySources(name :string,value : string,id : string) : Promise<ModifySource>{
 
     const source = await getColumnValues(name,value);
 
@@ -10,12 +13,13 @@ export async function modifySources({name,value} : {name : string,value : string
         throw new Error(`Could not fetch data for ${name} with ${value}`);
     }
 
-    const sourceid = `${name}-${value}`
 
     return {
-        [sourceid]: {
+        id : id,
+        source : {
             type : 'geojson',
             data : source,
-        },
+        }
+
     }
 }
