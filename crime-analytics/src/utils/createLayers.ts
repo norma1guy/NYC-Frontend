@@ -1,6 +1,7 @@
 import type { LayerSpecification } from "maplibre-gl";
 import { createBoroLayers } from "./createBoroLayers";
 import { cityLayer } from "./createCityLayer";
+import { roadsLayer } from "./createRoadsLayer";
 
 export function createLayers() : LayerSpecification[]{
 
@@ -15,6 +16,7 @@ export function createLayers() : LayerSpecification[]{
         },
         ...cityLayer,
         ...createBoroLayers(),
+        ...roadsLayer,
     ]
 }
 

@@ -5,7 +5,7 @@ import type {FeatureCollection} from 'geojson';
 import type { AsyncData } from '../types/styleSpecs';
 
 const instance = axios.create({
-    baseURL: 'http://localhost:8000/api/osm',
+    baseURL: 'http://localhost:8000/api/',
     headers: {"Authorization" : `Token ${import.meta.env.VITE_API_TOKEN}`}
 })
 
@@ -18,6 +18,17 @@ export async function getBoundary() : Promise<AsyncData<FeatureCollection>>{
         
     } catch (error) {
         console.error(`Error fetching the boundary for ${name}`,error);
+    }
+}
+
+export async function getRoads() : Promise<AsyncData<FeatureCollection>>{
+    try {
+        const response = await instance.get<FeatureCollection>('/roads/fetch_all/');
+        const roads = response.data;
+        return roads;
+    } catch (error) {
+        
+        console.error("Error fetching roads ",error);
     }
 }
 

@@ -54,7 +54,7 @@ export default function Mapper({styleSpec,onLoad} : MapperProps){
     
     return (
         <div 
-            className='m-2 p-5 flex w-dvh h-[70dvh] justify-center'
+            className='m-2 p-5 flex w-[70dvw] h-[70vh] justify-center'
             ref={containerRef}
         />
     )
