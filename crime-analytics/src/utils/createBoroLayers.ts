@@ -37,7 +37,7 @@ export function createBoroLayers() : LayerSpecification[]{
             }*/
         };
 
-        const fillLayer: LayerSpecification = {
+        /*const fillLayer: LayerSpecification = {
             id: `${name}-fill`,
             type: 'fill',
             source: 'boundary',
@@ -46,10 +46,10 @@ export function createBoroLayers() : LayerSpecification[]{
                 'fill-opacity': 0.4,
             },
             filter : ['==', ['get', 'name'], name],
-        };
+        };*/
 
 
-        return [fillLayer, symbolLayer];
+        return [symbolLayer];
     });
 
     return boundaryLayers;

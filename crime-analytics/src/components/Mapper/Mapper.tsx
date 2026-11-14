@@ -29,8 +29,18 @@ export default function Mapper({styleSpec,onLoad} : MapperProps){
             style: styleSpec,
             center: [-73.9311,40.6567],
             zoom: 10,
-            pitch: 45
-
+            pitch: 45,
+            transformRequest: (url) => {
+                if (url.startsWith('http://localhost:8000/api/tile/')){
+                    return {
+                        url : url,
+                        headers: {
+                            "Authorization" : `Token ${import.meta.env.VITE_API_TOKEN}`
+                        }
+                    };
+                }
+                return {url}
+            }
         });
         map.on('load', () => {
             const marker = new Image();

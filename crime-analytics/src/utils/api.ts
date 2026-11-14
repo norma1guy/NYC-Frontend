@@ -21,17 +21,6 @@ export async function getBoundary() : Promise<AsyncData<FeatureCollection>>{
     }
 }
 
-export async function getRoads() : Promise<AsyncData<FeatureCollection>>{
-    try {
-        const response = await instance.get<FeatureCollection>('/roads/fetch_all/');
-        const roads = response.data;
-        return roads;
-    } catch (error) {
-        
-        console.error("Error fetching roads ",error);
-    }
-}
-
 export async function getLabelPoints() : Promise<AsyncData<FeatureCollection>>{
     try {
         const response = await instance.get<FeatureCollection>(`/labels/geojson/`);

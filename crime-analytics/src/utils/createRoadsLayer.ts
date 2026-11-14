@@ -6,8 +6,23 @@ export const roadsLayer : LayerSpecification[] =
         id: "roads",
         type: "line",
         source: "roads",
-        paint : {
-            "line-color" : "rgb(212,56,56)"
+        'source-layer': 'roads',
+        paint: {
+            "line-color": "#777777",
+
+            "line-width": [
+                "match",
+                ["get", "highway"],
+
+                ["motorway", "trunk"], 4,
+                ["primary"], 3,
+                ["secondary"], 2.5,
+                ["tertiary"], 2,
+                ["residential", "unclassified"], 1.5,
+                ["service", "living_street"], 1,
+
+                0.8
+            ]
         }
     }
 ]
