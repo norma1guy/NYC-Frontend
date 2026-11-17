@@ -44,8 +44,13 @@ export async function createSources() : Promise<Record<string,SourceSpecificatio
         },
         'roads' : {
             type : 'vector',
-            tiles : ['http://localhost:8000/api/tile/{z}/{x}/{y}'],
-            minzoom : 5
+            tiles : ['http://localhost:8000/api/tile/roads/{z}/{x}/{y}'],
+            minzoom : 10,
+        },
+        'bridges' : {
+            type : 'vector',
+            tiles : ['http://localhost:8000/api/tile/bridges/{z}/{x}/{y}'],
+            minzoom : 10,
         }
     }
     
