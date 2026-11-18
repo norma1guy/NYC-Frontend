@@ -22,7 +22,8 @@ export const roadsLayer : LayerSpecification[] =
                 ["service", "living_street"], 1,
 
                 0.8
-            ]
+            ],
+            "line-opacity" : 0.4,
         }
     }
 ]

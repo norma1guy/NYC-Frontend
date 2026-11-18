@@ -8,6 +8,7 @@ export const bridgeLayer: LayerSpecification[] = [
         'source-layer': "bridges",
         paint: {
             "line-color": "#777777",
+            "line-opacity": 0.4,
         }
     }
 ]

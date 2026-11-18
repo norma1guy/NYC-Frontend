@@ -51,7 +51,18 @@ export async function createSources() : Promise<Record<string,SourceSpecificatio
             type : 'vector',
             tiles : ['http://localhost:8000/api/tile/bridges/{z}/{x}/{y}'],
             minzoom : 10,
+        },
+        'greens' : {
+            type : 'vector',
+            tiles : ['http://localhost:8000/api/tile/greens/{z}/{x}/{y}'],
+            minzoom : 10,
+        },
+        'buildings' : {
+            type : 'vector',
+            tiles : ['http://localhost:8000/api/tile/buildings/{z}/{x}/{y}'],
+            minzoom : 17,
         }
+
     }
     
 }

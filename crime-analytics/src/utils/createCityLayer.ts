@@ -16,7 +16,7 @@ export const cityLayer : LayerSpecification[] =
         type : "fill",
         source : "boundary",
         paint : {
-            "fill-color" : "rgb(255, 255, 204)"
+            "fill-color" : "#FFFFE5",
         },
         filter : ['==',['get','name'],'New York']
 

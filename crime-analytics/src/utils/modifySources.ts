@@ -1,4 +1,4 @@
-import type { SourceSpecification,Map, GeoJSONSourceSpecification } from "maplibre-gl";
+import type { GeoJSONSourceSpecification } from "maplibre-gl";
 import { getColumnValues } from "./api";
 
 export type ModifySource = {
